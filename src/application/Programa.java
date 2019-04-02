@@ -17,37 +17,107 @@ public class Programa {
 		int linhas = in.nextInt();
 		int colunas = in.nextInt();
 		
-		int [][] matriz = new int[linhas][colunas];
+		double [][] matriz = new double [linhas + 1][colunas + 1];
 		
-		for(int i = 0;i < linhas;i++) {
-			for(int j = 0;j < colunas;j++) {
+		for(int i = 1;i <= linhas;i++) {
+			for(int j = 1;j <= colunas;j++) {
 				
-				System.out.printf("Preencha Sua matriz na posição [%d][%d]: ",i+1,j+1);
+				System.out.printf("Preencha Sua matriz na posição [%d][%d]: ",i,j);
 				matriz[i][j] = in.nextInt();
 			}
 		}
 		
+			imprimirMatriz(matriz);
 
+			//lógica para escalonar
+			
+			int i = 1;
+			int j = 1;
+			
+			while(i<= linhas && j<= colunas) {
+				int x = i;
+				
+				while(x <= linhas && matriz[x][j] == 0) {
+					x++;
+				}
+				if(x <= linhas ) {
+					
+					if(x != i) {
+						trocaLinha(matriz, i, x, j);
+						//imprimirMatriz(matriz);
+					}
+					if (matriz[i][j] != 1) {
+						divideElemento(matriz, i, j);
+						//imprimirMatriz(matriz);
+					}
+					
+					subtrairElemento(matriz, i, j);
+					//imprimirMatriz(matriz);
+					i++;
+				}
+				j++;
+			}
+			imprimirMatriz(matriz);
+			
 		in.close();
 	}
-	
-	public static void trocaLinha(int [][]matriz,int lx, int ly) {
-		int [] aux = matriz[lx];
-		matriz[lx] = matriz[ly];
-		matriz[ly] = aux;
+
+	public static void trocaLinha(double[][] matriz,int i, int x, int j) {
+		
+		// troca linha lx por ly
+		
+		int m = matriz[0].length - 1;
+			
+		double temporario;
+			for(int q = j; q <= m; q++) {
+				temporario = matriz[i][q];
+				matriz[i][q] = matriz[x][q];
+				matriz[x][q] = temporario;
+			}
 	}
 	
-	public static void imprimirMatriz(int[][]matriz) {
+	static void divideElemento(double[][] matriz, int i, int j) {
+		
+		//divide o primeiro elemento da linha com os proximos
+		
+		int m = matriz[0].length - 1;
+		for (int q = j + 1; q <= m; q++){
+			matriz [i][q] /= matriz[i][j];
+		}
+		matriz[i][j] = 1;
+	}
+
+	public static void imprimirMatriz(double[][]matriz) {
+		
+		//imprime a matriz
+		System.out.println();
 		System.out.print("Matriz: ");
-		for(int i = 0;i < matriz.length;i++) {
+		for(int i = 1;i <= matriz.length - 1;i++) {
 			System.out.println();
-			for(int j = 0;j < matriz[i].length;j++) {
+			for(int j = 1;j <= matriz[i].length - 1;j++)
+				System.out.printf("%.1f ",matriz[i][j]); 
+			}
+	}
+	
+	static void subtrairElemento(double[][] matriz, int i, int j) {	
+		
+		// subtrai elemento com a multipliccação de elementos de outra linha
+		
+		int n = matriz.length - 1; 
+		
+		int m = matriz[0].length - 1;
+		
+		for (int p = 1; p <= n; p++) {
+			
+			if (p != i && matriz[p][j] != 0) {
 				
-				System.out.printf("[%d]", matriz[i][j]);
+				for (int q = j + 1; q <= m; q++) {
+					matriz[p][q] -= matriz[p][j] * matriz[i][q];					
+				}
+				matriz[p][j] = 0;
 			}
 		}
 	}
-	
-	
-	
 }
+
+
