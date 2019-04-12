@@ -13,17 +13,20 @@ public class Programa {
 		System.out.println("    B E M     V I N D O");
 		System.out.println("----------------------------");
 		
-		System.out.print("Insira a Quantidade de linhas e colunas de sua matriz: ");
+		System.out.print("Insira a Quantidade de Equações e Icógnitas do seu sistema: ");
 		int linhas = in.nextInt();
 		int colunas = in.nextInt();
 		
 		double [][] matriz = new double [linhas + 1][colunas + 1];
 		
+		System.out.println("Insira Seus valores abaixo: ");
 		for(int i = 1;i <= linhas;i++) {
 			for(int j = 1;j <= colunas;j++) {
 				
-				System.out.printf("Preencha Sua matriz na posição [%d][%d]: ",i,j);
+				//System.out.printf("Insira %dª Equação: ",i);
+				
 				matriz[i][j] = in.nextInt();
+				
 			}
 		}
 		
@@ -44,20 +47,19 @@ public class Programa {
 					
 					if(x != i) {
 						trocaLinha(matriz, i, x, j);
-						//imprimirMatriz(matriz);
+						imprimirMatriz(matriz);
 					}
 					if (matriz[i][j] != 1) {
 						divideElemento(matriz, i, j);
-						//imprimirMatriz(matriz);
+						imprimirMatriz(matriz);
 					}
 					
 					subtrairElemento(matriz, i, j);
-					//imprimirMatriz(matriz);
+					imprimirMatriz(matriz);
 					i++;
 				}
 				j++;
 			}
-			imprimirMatriz(matriz);
 			
 		in.close();
 	}
@@ -102,6 +104,7 @@ public class Programa {
 	static void subtrairElemento(double[][] matriz, int i, int j) {	
 		
 		// subtrai elemento com a multipliccação de elementos de outra linha
+		
 		
 		int n = matriz.length - 1; 
 		
